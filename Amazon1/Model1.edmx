@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="APD65_63011212004Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AmazonOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderNumber" Type="int" Nullable="false" />
+          <Property Name="OrderDate" Type="datetime" Nullable="false" />
+          <Property Name="Total" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AmazonOrderItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="OrderitemName" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="OrderitemType" Type="nchar" MaxLength="10" />
+          <Property Name="UnitPrice" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="Quantitiy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AmazonProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TypeID" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="TypeM" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_AmazonOrderItem_AmazonOrder">
+          <End Role="AmazonOrder" Type="Self.AmazonOrder" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AmazonOrderItem" Type="Self.AmazonOrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AmazonOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AmazonOrderItem">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AmazonOrderItem_AmazonProduct">
+          <End Role="AmazonProduct" Type="Self.AmazonProduct" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AmazonOrderItem" Type="Self.AmazonOrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AmazonProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AmazonOrderItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="APD65_63011212004ModelStoreContainer">
+          <EntitySet Name="AmazonOrder" EntityType="Self.AmazonOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AmazonOrderItem" EntityType="Self.AmazonOrderItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AmazonProduct" EntityType="Self.AmazonProduct" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AmazonOrderItem_AmazonOrder" Association="Self.FK_AmazonOrderItem_AmazonOrder">
+            <End Role="AmazonOrder" EntitySet="AmazonOrder" />
+            <End Role="AmazonOrderItem" EntitySet="AmazonOrderItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AmazonOrderItem_AmazonProduct" Association="Self.FK_AmazonOrderItem_AmazonProduct">
+            <End Role="AmazonProduct" EntitySet="AmazonProduct" />
+            <End Role="AmazonOrderItem" EntitySet="AmazonOrderItem" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="APD65_63011212004Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AmazonOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderNumber" Type="Int32" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Total" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <NavigationProperty Name="AmazonOrderItems" Relationship="Self.FK_AmazonOrderItem_AmazonOrder" FromRole="AmazonOrder" ToRole="AmazonOrderItem" />
+        </EntityType>
+        <EntityType Name="AmazonOrderItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="OrderitemName" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OrderitemType" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="Quantitiy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AmazonOrder" Relationship="Self.FK_AmazonOrderItem_AmazonOrder" FromRole="AmazonOrderItem" ToRole="AmazonOrder" />
+          <NavigationProperty Name="AmazonProduct" Relationship="Self.FK_AmazonOrderItem_AmazonProduct" FromRole="AmazonOrderItem" ToRole="AmazonProduct" />
+        </EntityType>
+        <EntityType Name="AmazonProduct">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TypeID" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductName" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TypeM" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <NavigationProperty Name="AmazonOrderItems" Relationship="Self.FK_AmazonOrderItem_AmazonProduct" FromRole="AmazonProduct" ToRole="AmazonOrderItem" />
+        </EntityType>
+        <Association Name="FK_AmazonOrderItem_AmazonOrder">
+          <End Role="AmazonOrder" Type="Self.AmazonOrder" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AmazonOrderItem" Type="Self.AmazonOrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AmazonOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AmazonOrderItem">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AmazonOrderItem_AmazonProduct">
+          <End Role="AmazonProduct" Type="Self.AmazonProduct" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AmazonOrderItem" Type="Self.AmazonOrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AmazonProduct">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AmazonOrderItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="APD65_63011212004Entities5" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AmazonOrders" EntityType="Self.AmazonOrder" />
+          <EntitySet Name="AmazonOrderItems" EntityType="Self.AmazonOrderItem" />
+          <EntitySet Name="AmazonProducts" EntityType="Self.AmazonProduct" />
+          <AssociationSet Name="FK_AmazonOrderItem_AmazonOrder" Association="Self.FK_AmazonOrderItem_AmazonOrder">
+            <End Role="AmazonOrder" EntitySet="AmazonOrders" />
+            <End Role="AmazonOrderItem" EntitySet="AmazonOrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AmazonOrderItem_AmazonProduct" Association="Self.FK_AmazonOrderItem_AmazonProduct">
+            <End Role="AmazonProduct" EntitySet="AmazonProducts" />
+            <End Role="AmazonOrderItem" EntitySet="AmazonOrderItems" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="APD65_63011212004ModelStoreContainer" CdmEntityContainer="APD65_63011212004Entities5">
+          <EntitySetMapping Name="AmazonOrders">
+            <EntityTypeMapping TypeName="APD65_63011212004Model.AmazonOrder">
+              <MappingFragment StoreEntitySet="AmazonOrder">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AmazonOrderItems">
+            <EntityTypeMapping TypeName="APD65_63011212004Model.AmazonOrderItem">
+              <MappingFragment StoreEntitySet="AmazonOrderItem">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="OrderitemName" ColumnName="OrderitemName" />
+                <ScalarProperty Name="OrderitemType" ColumnName="OrderitemType" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantitiy" ColumnName="Quantitiy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AmazonProducts">
+            <EntityTypeMapping TypeName="APD65_63011212004Model.AmazonProduct">
+              <MappingFragment StoreEntitySet="AmazonProduct">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="TypeM" ColumnName="TypeM" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
